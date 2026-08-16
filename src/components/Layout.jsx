@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Outlet, NavLink, useLocation } from 'react-router-dom'
+import { Outlet, NavLink } from 'react-router-dom'
 import {
   LayoutDashboard,
   CalendarDays,
@@ -9,7 +9,10 @@ import {
   Menu,
   X,
   Heart,
+  LogOut,
+  User,
 } from 'lucide-react'
+import { useAuth } from '../context/AuthContext'
 
 const navItems = [
   { to: '/dashboard', label: 'Dashboard', icon: LayoutDashboard },
@@ -21,7 +24,7 @@ const navItems = [
 
 export default function Layout() {
   const [sidebarOpen, setSidebarOpen] = useState(false)
-  const location = useLocation()
+  const { user, logout } = useAuth()
 
   return (
     <div className="min-h-screen flex bg-gray-50">
@@ -80,8 +83,17 @@ export default function Layout() {
           ))}
         </nav>
 
-        <div className="px-5 py-4 border-t border-gray-100 text-xs text-gray-400">
-          Personal Gift Management
+        <div className="px-4 py-4 border-t border-gray-100 space-y-2">
+          <div className="flex items-center gap-2 px-2 py-1.5 text-sm text-gray-500">
+            <User className="w-4 h-4" />
+            <span className="font-medium">{user?.username}</span>
+          </div>
+          <button
+            onClick={logout}
+            className="w-full flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium text-red-600 hover:bg-red-50 transition-colors"
+          >
+            <LogOut className="w-4 h-4" /> Sign Out
+          </button>
         </div>
       </aside>
 
